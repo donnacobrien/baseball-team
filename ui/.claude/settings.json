@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(supabase link:*)",
+      "Bash(supabase login:*)",
+      "Bash(supabase secrets:*)"
+    ]
+  }
+}
