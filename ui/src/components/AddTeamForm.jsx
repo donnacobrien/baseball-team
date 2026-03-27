@@ -19,7 +19,7 @@ const NUM_PLAYERS = 8
  * Autocomplete input for a single player slot.
  * Calls onChange({ name, mlbId }) when a player is selected from results.
  */
-function PlayerSearchInput({ index, player, onChange }) {
+function PlayerSearchInput({ player, onChange }) {
   const [query, setQuery] = useState(player.name)
   const [open, setOpen] = useState(false)
   const { results, searching } = usePlayerSearch(open ? query : '')

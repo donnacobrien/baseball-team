@@ -15,9 +15,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Stack
 - **React 19** + **Vite 8**
-- **Firebase Firestore** — team data (real-time, shared across all users)
+- **Supabase** — team data (shared across all users)
 - **MLB Stats API** (`statsapi.mlb.com`) — live 2026 HR totals, schedules, game logs
-- **Vercel** — hosting
+- **Vercel** — hosting (auto-deploys on push to `main` via GitHub integration)
 
 ### Commands
 ```bash
@@ -25,18 +25,13 @@ cd ui
 npm install          # install dependencies
 npm run dev          # start dev server at http://localhost:5173
 npm run build        # production build
-npx vercel --prod    # deploy to production
 ```
 
 ### Environment variables
-Copy `.env.example` to `.env` and fill in Firebase project credentials:
+Copy `.env.example` to `.env` and fill in Supabase project credentials:
 ```
-VITE_FIREBASE_API_KEY=
-VITE_FIREBASE_AUTH_DOMAIN=
-VITE_FIREBASE_PROJECT_ID=
-VITE_FIREBASE_STORAGE_BUCKET=
-VITE_FIREBASE_MESSAGING_SENDER_ID=
-VITE_FIREBASE_APP_ID=
+VITE_SUPABASE_URL=
+VITE_SUPABASE_ANON_KEY=
 ```
 The same keys must be set in the Vercel project dashboard (Settings → Environment Variables).
 
@@ -48,7 +43,7 @@ The same keys must be set in the Vercel project dashboard (Settings → Environm
 - `add-team` / `edit-team` — form to create or edit a team
 
 **Data flow:**
-- `useTeams` — real-time Firestore listener; all team adds/edits write back to Firestore
+- `useTeams` — fetches all teams from Supabase on mount; upserts on save
 - `usePlayerStats` — single batched MLB API call for all unique player IDs across all teams
 - `useNextGames` — fetches each player's current team, then their upcoming schedule
 - `useHRLog` — per-player game log, fetched on demand when the drill-down panel opens
@@ -56,7 +51,7 @@ The same keys must be set in the Vercel project dashboard (Settings → Environm
 
 **Scoring rule:** top 7 players by 2026 HRs on each roster count toward the team total; the 8th is automatically excluded.
 
-**Firestore:** single `teams` collection, one document per team, document ID = owner name (lowercase, hyphenated). All reads/writes require `allow read, write: if true` rules.
+**Supabase:** single `teams` table with `id text primary key, data jsonb not null`. The full team object is stored in the `data` column. Row ID = owner name (lowercase, hyphenated).
 
 ---
 

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useTeams } from './hooks/useTeams'
 import { usePlayerStats } from './hooks/usePlayerStats'
 import Leaderboard from './components/Leaderboard'
@@ -39,9 +39,12 @@ export default function App() {
     setLastUpdated(new Date())
   }
 
-  if (!statsLoading && !error && lastUpdated === null && Object.keys(stats).length > 0) {
-    setLastUpdated(new Date())
-  }
+  // Set initial lastUpdated timestamp once stats first load
+  useEffect(() => {
+    if (!statsLoading && !error && lastUpdated === null && Object.keys(stats).length > 0) {
+      setLastUpdated(new Date())
+    }
+  }, [statsLoading, error, stats, lastUpdated])
 
   function formatTime(date) {
     if (!date) return null
@@ -81,7 +84,7 @@ export default function App() {
         </div>
         {teamsError && (
           <div className="error-banner" role="alert">
-            ⚠ Firebase error: {teamsError}
+            ⚠ Database error: {teamsError}
           </div>
         )}
         {error && (
