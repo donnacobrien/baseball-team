@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
-import { collection, doc, setDoc, getDocs, getDocsFromServer, onSnapshot } from 'firebase/firestore'
-import { db } from '../lib/firebase'
+import { supabase } from '../lib/supabase'
 
 export function useTeams() {
   const [teams, setTeams] = useState([])
@@ -8,30 +7,27 @@ export function useTeams() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    // Force server fetch — bypasses cache entirely
-    getDocsFromServer(collection(db, 'teams'))
-      .then(snap => console.log('[fromServer] size:', snap.size))
-      .catch(e => console.error('[fromServer] error:', e.code, e.message))
-
-    const unsub = onSnapshot(
-      collection(db, 'teams'),
-      (snapshot) => {
-        console.log('[onSnapshot] size:', snapshot.size, 'fromCache:', snapshot.metadata.fromCache)
-        const loaded = snapshot.docs.map((d) => d.data())
-        loaded.sort((a, b) => a.teamName.localeCompare(b.teamName))
-        setTeams(loaded)
-        setLoading(false)
-      },
-      (err) => {
-        setError(`${err.code}: ${err.message}`)
-        setLoading(false)
-      }
-    )
-    return unsub
+    fetchTeams()
   }, [])
 
+  async function fetchTeams() {
+    const { data, error } = await supabase.from('teams').select('*')
+    if (error) {
+      setError(`${error.code}: ${error.message}`)
+    } else {
+      const loaded = data.map(row => row.data)
+      loaded.sort((a, b) => a.teamName.localeCompare(b.teamName))
+      setTeams(loaded)
+    }
+    setLoading(false)
+  }
+
   async function saveTeam(team) {
-    await setDoc(doc(db, 'teams', team.id), team)
+    const { error } = await supabase
+      .from('teams')
+      .upsert({ id: team.id, data: team })
+    if (error) throw error
+    await fetchTeams()
   }
 
   return { teams, saveTeam, loading, error }
