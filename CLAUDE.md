@@ -2,32 +2,64 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Project Purpose
+## Repository Layout
 
-Fantasy homerun derby team optimizer. Uses the player pool from `hrd-available-players-26.pdf` (2025 HR totals = cost) to select an optimal 8-player roster (top 7 + 1 backup) under a 172 HR salary cap, informed by 2026 HR projections and decision science/ML.
+| Directory | Purpose |
+|-----------|---------|
+| `ui/` | React web app — live family HR tracker, deployed on Vercel |
+| `team-creation/` | Python Jupyter notebook — optimizer that selected the original teams |
 
-## Environment
+---
 
-- Python 3.14, virtual environment at `.venv/`
-- Activate: `source .venv/bin/activate`
-- Primary work surface: `main.ipynb` (Jupyter notebook)
-- Run notebook: `jupyter notebook main.ipynb` or `jupyter lab`
+## ui/ — React Web App
 
-## Installed Packages
+### Stack
+- **React 19** + **Vite 8**
+- **Firebase Firestore** — team data (real-time, shared across all users)
+- **MLB Stats API** (`statsapi.mlb.com`) — live 2026 HR totals, schedules, game logs
+- **Vercel** — hosting
 
-Key packages already in `.venv`: `pandas`, `numpy`, `pypdf2`, `requests`, `lxml`, `ipykernel`, `jupyter_client`
+### Commands
+```bash
+cd ui
+npm install          # install dependencies
+npm run dev          # start dev server at http://localhost:5173
+npm run build        # production build
+npx vercel --prod    # deploy to production
+```
 
-Install new packages with: `.venv/bin/pip install <package>`
+### Environment variables
+Copy `.env.example` to `.env` and fill in Firebase project credentials:
+```
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+```
+The same keys must be set in the Vercel project dashboard (Settings → Environment Variables).
 
-## Data
+### Architecture
 
-- `hrd-available-players-26.pdf` — source of truth for available players and their 2025 HR totals (= cap cost)
-- Parse with `PyPDF2` (already installed)
-- Cap: 172 total HRs across 8 players (7 starters + 1 backup)
+**Views** (managed as a `view` state string in `App.jsx`):
+- `leaderboard` — all teams ranked by top-7 2026 HR total
+- `team` — player breakdown for one team; double-click a player name for their HR log
+- `add-team` / `edit-team` — form to create or edit a team
 
-## Architecture
+**Data flow:**
+- `useTeams` — real-time Firestore listener; all team adds/edits write back to Firestore
+- `usePlayerStats` — single batched MLB API call for all unique player IDs across all teams
+- `useNextGames` — fetches each player's current team, then their upcoming schedule
+- `useHRLog` — per-player game log, fetched on demand when the drill-down panel opens
+- `usePlayerSearch` — debounced MLB people search, used in the Add/Edit team form
 
-All analysis lives in `main.ipynb`. The workflow is:
-1. **Data wrangling** — extract player names + 2025 HR from PDF
-2. **Projection modeling** — build 2026 HR projections (external stats sources + regression/ML)
-3. **Optimization** — knapsack/integer programming to select best 8-player roster under cap
+**Scoring rule:** top 7 players by 2026 HRs on each roster count toward the team total; the 8th is automatically excluded.
+
+**Firestore:** single `teams` collection, one document per team, document ID = owner name (lowercase, hyphenated). All reads/writes require `allow read, write: if true` rules.
+
+---
+
+## team-creation/ — Python Optimizer
+
+See `team-creation/CLAUDE.md` for full details. This is a standalone Jupyter notebook that was used to generate the original team picks and is not connected to the web app.
