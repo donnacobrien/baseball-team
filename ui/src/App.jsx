@@ -81,10 +81,10 @@ export default function App() {
             {lastUpdated && (
               <span className="last-updated">Updated: {formatTime(lastUpdated)}</span>
             )}
-            <NotificationPreferences teams={teams} />
             <button className="refresh-btn" onClick={handleRefresh} disabled={loading}>
               {statsLoading ? 'Refreshing…' : '↻ Refresh'}
             </button>
+            <NotificationPreferences teams={teams} />
           </div>
         </div>
         {teamsError && (
