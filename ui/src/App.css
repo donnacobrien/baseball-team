@@ -193,6 +193,22 @@
   text-decoration: underline;
 }
 
+/* ---------- Live Game Badge ---------- */
+
+.live-badge {
+  margin-left: 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #22c55e;
+  letter-spacing: 0.04em;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
 /* ---------- Error Banner ---------- */
 
 .error-banner {

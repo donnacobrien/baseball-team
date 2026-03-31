@@ -8,7 +8,7 @@ function teamTotal(team, stats) {
     .reduce((sum, p) => sum + (stats[p.mlbId] ?? 0), 0)
 }
 
-export default function Leaderboard({ teams, stats, loading, onSelectTeam, onAddTeam }) {
+export default function Leaderboard({ teams, stats, loading, liveTeams = new Set(), onSelectTeam, onAddTeam }) {
   const sorted = [...teams].sort((a, b) => {
     const aTotal = teamTotal(a, stats)
     const bTotal = teamTotal(b, stats)
@@ -48,6 +48,7 @@ export default function Leaderboard({ teams, stats, loading, onSelectTeam, onAdd
           <tbody>
             {sorted.map((team, index) => {
               const total = teamTotal(team, stats)
+              const isLive = team.players.some(p => liveTeams.has(p.mlbTeam))
               return (
                 <tr
                   key={team.id}
@@ -65,7 +66,10 @@ export default function Leaderboard({ teams, stats, loading, onSelectTeam, onAdd
                     </span>
                   </td>
                   <td className="col-owner">{team.owner}</td>
-                  <td className="col-team">{team.teamName}</td>
+                  <td className="col-team">
+                    {team.teamName}
+                    {isLive && <span className="live-badge">● LIVE</span>}
+                  </td>
                   <td className="col-hrs">
                     {total === null ? (
                       <span className="stat-dash">—</span>
