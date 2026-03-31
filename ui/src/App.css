@@ -41,12 +41,25 @@
   gap: 12px;
 }
 
+.app-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .app-title {
   margin: 0;
   font-size: 1.6rem;
   font-weight: 700;
   color: #e2e8f0;
   letter-spacing: -0.02em;
+}
+
+.app-subtitle {
+  font-size: 0.78rem;
+  color: #64748b;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .header-controls {
@@ -81,6 +94,103 @@
 .refresh-btn:disabled {
   opacity: 0.55;
   cursor: not-allowed;
+}
+
+/* ---------- Notification Preferences ---------- */
+
+.notif-wrap {
+  position: relative;
+}
+
+.notif-btn {
+  background: #1e3a5f;
+  color: #e2e8f0;
+  border: 1px solid #2d5986;
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.notif-btn:hover {
+  background: #2d5986;
+}
+
+.notif-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #1a2d3e;
+  border: 1px solid #2d4a60;
+  border-radius: 10px;
+  padding: 12px;
+  min-width: 220px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+.notif-hint {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin: 0 0 4px;
+}
+
+.notif-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0f1923;
+  border: 1px solid #2d4a60;
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: #e2e8f0;
+  font-size: 0.875rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.notif-option:hover {
+  background: #1e3a5f;
+  border-color: #22c55e;
+}
+
+.notif-option.active {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.notif-owner {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.notif-divider {
+  font-size: 0.75rem;
+  color: #475569;
+  text-align: center;
+  padding: 4px 0;
+}
+
+.notif-unsub {
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 4px 0;
+  text-align: center;
+  margin-top: 4px;
+}
+
+.notif-unsub:hover {
+  text-decoration: underline;
 }
 
 /* ---------- Error Banner ---------- */

@@ -4,6 +4,7 @@ import { usePlayerStats } from './hooks/usePlayerStats'
 import Leaderboard from './components/Leaderboard'
 import TeamCard from './components/TeamCard'
 import AddTeamForm from './components/AddTeamForm'
+import NotificationPreferences from './components/NotificationPreferences'
 import './App.css'
 
 function getAllUniquePlayers(teams) {
@@ -72,11 +73,15 @@ export default function App() {
     <div className="app">
       <header className="app-header">
         <div className="header-title-row">
-          <h1 className="app-title">⚾ HRD OBrien Luck</h1>
+          <div className="app-title-block">
+            <h1 className="app-title">⚾ O'Brien Luck</h1>
+            <span className="app-subtitle">Home Run Derby Teams | 2026</span>
+          </div>
           <div className="header-controls">
             {lastUpdated && (
               <span className="last-updated">Updated: {formatTime(lastUpdated)}</span>
             )}
+            <NotificationPreferences teams={teams} />
             <button className="refresh-btn" onClick={handleRefresh} disabled={loading}>
               {statsLoading ? 'Refreshing…' : '↻ Refresh'}
             </button>
