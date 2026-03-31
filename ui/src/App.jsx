@@ -74,8 +74,8 @@ export default function App() {
       <header className="app-header">
         <div className="header-title-row">
           <div className="app-title-block">
-            <h1 className="app-title">⚾ O'Brien Luck</h1>
-            <span className="app-subtitle">Home Run Derby Teams | 2026</span>
+            <h1 className="app-title">O'Brien Luck ⚾</h1>
+            <span className="app-subtitle">Home Run Derby | 2026</span>
           </div>
           <div className="header-controls">
             {lastUpdated && (
