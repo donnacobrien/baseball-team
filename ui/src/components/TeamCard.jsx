@@ -54,8 +54,8 @@ export default function TeamCard({ team, stats, loading, liveTeams = new Set(), 
             <tr>
               <th className="col-rank">#</th>
               <th className="col-player-name">Player</th>
-              <th className="col-status">Live</th>
               <th className="col-mlb-team">MLB Team</th>
+              <th className="col-status">Live</th>
               <th className="col-cost">Cost</th>
               <th className="col-live-hrs">2026 HRs</th>
             </tr>
@@ -81,11 +81,11 @@ export default function TeamCard({ team, stats, loading, liveTeams = new Set(), 
                       <span className="next-game-label">{nextGameStr}</span>
                     )}
                   </td>
-                  <td className="col-status">
-                    <span className={isLive ? 'status-dot live' : 'status-dot inactive'} />
-                  </td>
                   <td className="col-mlb-team">
                     <span className="team-chip">{player.mlbTeam}</span>
+                  </td>
+                  <td className="col-status">
+                    <span className={isLive ? 'status-dot live' : 'status-dot inactive'} />
                   </td>
                   <td className="col-cost">{player.cost}</td>
                   <td className="col-live-hrs">
