@@ -566,6 +566,7 @@
 .player-table td {
   padding: 12px 14px;
   color: #e2e8f0;
+  text-align: center;
 }
 
 /* 8th player (not counting toward score) */
