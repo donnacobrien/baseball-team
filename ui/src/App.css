@@ -201,12 +201,33 @@
   font-weight: 700;
   color: #22c55e;
   letter-spacing: 0.04em;
-  animation: pulse 1.5s ease-in-out infinite;
+  animation: pulse-green 1.5s ease-in-out infinite;
 }
 
-@keyframes pulse {
+.status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.status-dot.live {
+  background: #22c55e;
+  animation: pulse-green 1.5s ease-in-out infinite;
+}
+
+.status-dot.inactive {
+  background: #ef4444;
+}
+
+@keyframes pulse-green {
   0%, 100% { opacity: 1; }
-  50%       { opacity: 0.4; }
+  50%       { opacity: 0.35; }
+}
+
+.col-status {
+  text-align: center;
+  width: 48px;
 }
 
 /* ---------- Error Banner ---------- */

@@ -14,7 +14,7 @@ function formatNextGame(game) {
   return `${isHome ? 'vs' : '@'} ${opponent} · ${dateStr}${timeStr ? ' ' + timeStr : ''}`
 }
 
-export default function TeamCard({ team, stats, loading, onBack, onEdit }) {
+export default function TeamCard({ team, stats, loading, liveTeams = new Set(), onBack, onEdit }) {
   const [detailPlayer, setDetailPlayer] = useState(null)
   const { nextGames } = useNextGames(team.players)
 
@@ -54,6 +54,7 @@ export default function TeamCard({ team, stats, loading, onBack, onEdit }) {
             <tr>
               <th className="col-rank">#</th>
               <th className="col-player-name">Player</th>
+              <th className="col-status">Live</th>
               <th className="col-mlb-team">MLB Team</th>
               <th className="col-cost">Cost</th>
               <th className="col-live-hrs">2026 HRs</th>
@@ -64,6 +65,7 @@ export default function TeamCard({ team, stats, loading, onBack, onEdit }) {
               const counting = i < 7
               const nextGame = nextGames[player.mlbId]
               const nextGameStr = formatNextGame(nextGame)
+              const isLive = liveTeams.has(player.mlbTeam)
               return (
                 <tr key={player.mlbId} className={counting ? 'player-row' : 'player-row not-counting'}>
                   <td className="col-rank">{i + 1}</td>
@@ -73,11 +75,14 @@ export default function TeamCard({ team, stats, loading, onBack, onEdit }) {
                       onDoubleClick={() => setDetailPlayer(player)}
                       title="Double-click for HR log"
                     >
-                      {player.name}
+                        {player.name}
                     </span>
                     {nextGameStr && (
                       <span className="next-game-label">{nextGameStr}</span>
                     )}
+                  </td>
+                  <td className="col-status">
+                    <span className={isLive ? 'status-dot live' : 'status-dot inactive'} />
                   </td>
                   <td className="col-mlb-team">
                     <span className="team-chip">{player.mlbTeam}</span>
@@ -95,7 +100,7 @@ export default function TeamCard({ team, stats, loading, onBack, onEdit }) {
           </tbody>
           <tfoot>
             <tr className="totals-row">
-              <td colSpan={4} className="totals-label">Top 7 Total</td>
+              <td colSpan={5} className="totals-label">Top 7 Total</td>
               <td className="col-live-hrs totals-value">
                 {allLoaded
                   ? <span className="hr-count">{totalHRs}</span>
