@@ -401,9 +401,7 @@
   text-align: center;
 }
 
-.rank-badge {
-  font-size: 1.1rem;
-}
+.rank-badge {}
 
 .leaderboard-table .col-rank,
 .leaderboard-table .col-owner,
@@ -459,14 +457,12 @@ td.col-team {
 /* ---------- HR Count / Dash ---------- */
 
 .hr-count {
-  font-size: 1.1rem;
   font-weight: 700;
   color: #22c55e;
 }
 
 .stat-dash {
   color: #475569;
-  font-size: 1.1rem;
 }
 
 /* ---------- Empty State ---------- */

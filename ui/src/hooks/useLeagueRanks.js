@@ -1,0 +1,29 @@
+import { useState, useEffect } from 'react'
+import { supabase } from '../lib/supabase'
+
+/**
+ * Reads league rank data from the `league_ranks` table (populated hourly by the
+ * league-standings edge function). Returns a map of lowercase team name -> rank
+ * for the given period (defaults to 'april').
+ */
+export function useLeagueRanks(period = 'april') {
+  const [rankings, setRankings] = useState({})
+
+  useEffect(() => {
+    supabase
+      .from('league_ranks')
+      .select('team_id, rank, teams(data)')
+      .eq('period', period)
+      .then(({ data }) => {
+        if (!data) return
+        const map = {}
+        for (const row of data) {
+          const name = row.teams?.data?.teamName?.toLowerCase().trim()
+          if (name) map[name] = row.rank
+        }
+        setRankings(map)
+      })
+  }, [period])
+
+  return rankings
+}
