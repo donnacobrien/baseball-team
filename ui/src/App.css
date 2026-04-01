@@ -405,19 +405,33 @@
   font-size: 1.1rem;
 }
 
+.leaderboard-table .col-rank,
+.leaderboard-table .col-owner,
+.leaderboard-table .col-league-rank,
+.leaderboard-table .col-hrs {
+  text-align: center;
+}
+
+.col-league-rank {
+  width: 60px;
+  cursor: help;
+}
+
+.league-rank-placeholder {
+  color: #475569;
+  font-style: italic;
+}
+
 .col-owner {
   font-weight: 600;
   color: #22c55e;
-  white-space: nowrap;
 }
 
 .col-team {
   color: #cbd5e1;
-}
-
-.col-hrs {
-  text-align: right;
-  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 /* ---------- HR Count / Dash ---------- */
@@ -559,6 +573,15 @@
   background: #253647;
 }
 
+.player-row.row-live {
+  background: rgba(34, 197, 94, 0.07);
+  border-left: 2px solid #22c55e;
+}
+
+.player-row.row-live:hover {
+  background: rgba(34, 197, 94, 0.13);
+}
+
 .player-row:last-child {
   border-bottom: none;
 }
@@ -577,7 +600,7 @@
 
 /* ---------- Player name cell ---------- */
 
-.col-player-name {
+.player-table .col-player-name {
   text-align: left;
 }
 
@@ -603,7 +626,7 @@
 }
 
 .col-rank       { width: 40px; }
-.col-player-name { width: auto; text-align: left; }
+.col-player-name { width: 35%; }
 .col-mlb-team   { width: 90px; }
 .col-status     { width: 60px; }
 .col-cost       { width: 60px; }
@@ -620,7 +643,7 @@
   padding: 13px 14px;
 }
 
-.totals-label {
+.player-table .totals-label {
   font-size: 0.78rem;
   font-weight: 700;
   text-transform: uppercase;

@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from 'react'
 import { useTeams } from './hooks/useTeams'
 import { usePlayerStats } from './hooks/usePlayerStats'
 import { useLiveGames } from './hooks/useLiveGames'
+import { useLeagueStandings } from './hooks/useLeagueStandings'
 import Leaderboard from './components/Leaderboard'
 import TeamCard from './components/TeamCard'
 import AddTeamForm from './components/AddTeamForm'
@@ -28,6 +29,7 @@ export default function App() {
   const allPlayers = useMemo(() => getAllUniquePlayers(teams), [teams])
   const { stats, loading: statsLoading, error, refresh } = usePlayerStats(allPlayers)
   const liveTeams = useLiveGames()
+  const leagueStandings = useLeagueStandings()
 
   const loading = teamsLoading || statsLoading
 
@@ -107,6 +109,7 @@ export default function App() {
             team={selectedTeam}
             stats={stats}
             loading={statsLoading}
+            liveTeams={liveTeams}
             onBack={() => setView('leaderboard')}
             onEdit={handleEditTeam}
           />
@@ -124,6 +127,7 @@ export default function App() {
             stats={stats}
             loading={loading}
             liveTeams={liveTeams}
+            leagueStandings={leagueStandings}
             onSelectTeam={handleSelectTeam}
             onAddTeam={() => setView('add-team')}
           />

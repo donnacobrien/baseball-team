@@ -57,7 +57,7 @@ export default function TeamCard({ team, stats, loading, liveTeams = new Set(), 
               <th className="col-mlb-team">MLB Team</th>
               <th className="col-status">Live</th>
               <th className="col-cost">Cost</th>
-              <th className="col-live-hrs">2026 HRs</th>
+              <th className="col-live-hrs">HRs</th>
             </tr>
           </thead>
           <tbody>
@@ -67,7 +67,7 @@ export default function TeamCard({ team, stats, loading, liveTeams = new Set(), 
               const nextGameStr = formatNextGame(nextGame)
               const isLive = liveTeams.has(player.mlbTeam)
               return (
-                <tr key={player.mlbId} className={counting ? 'player-row' : 'player-row not-counting'}>
+                <tr key={player.mlbId} className={`${counting ? 'player-row' : 'player-row not-counting'}${isLive ? ' row-live' : ''}`}>
                   <td className="col-rank">{i + 1}</td>
                   <td className="col-player-name">
                     <span
@@ -100,7 +100,7 @@ export default function TeamCard({ team, stats, loading, liveTeams = new Set(), 
           </tbody>
           <tfoot>
             <tr className="totals-row">
-              <td colSpan={5} className="totals-label">Top 7 Total</td>
+              <td colSpan={5} className="totals-label">Top 7 Total HRs</td>
               <td className="col-live-hrs totals-value">
                 {allLoaded
                   ? <span className="hr-count">{totalHRs}</span>

@@ -3,7 +3,14 @@
     "allow": [
       "Bash(supabase link:*)",
       "Bash(supabase login:*)",
-      "Bash(supabase secrets:*)"
+      "Bash(supabase secrets:*)",
+      "Read(//Users/donnagamble/Desktop/GH/baseball-team/**)",
+      "WebFetch(domain:www.homerunderbyus.com)",
+      "Bash(curl -s \"https://www.homerunderbyus.com/hrd-april-26.php\")",
+      "Bash(curl -sI \"https://www.homerunderbyus.com/hrd-april-26.php\")"
+    ],
+    "additionalDirectories": [
+      "/Users/donnagamble/Desktop/GH/baseball-team/supabase/functions/league-standings"
     ]
   }
 }

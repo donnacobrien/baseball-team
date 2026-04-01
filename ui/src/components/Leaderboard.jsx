@@ -1,5 +1,3 @@
-const RANK_MEDALS = ['🥇', '🥈', '🥉']
-
 function teamTotal(team, stats) {
   if (!team.players.every((p) => p.mlbId in stats)) return null
   return [...team.players]
@@ -8,7 +6,7 @@ function teamTotal(team, stats) {
     .reduce((sum, p) => sum + (stats[p.mlbId] ?? 0), 0)
 }
 
-export default function Leaderboard({ teams, stats, loading, liveTeams = new Set(), onSelectTeam, onAddTeam }) {
+export default function Leaderboard({ teams, stats, loading, liveTeams = new Set(), leagueStandings = {}, onSelectTeam, onAddTeam }) {
   const sorted = [...teams].sort((a, b) => {
     const aTotal = teamTotal(a, stats)
     const bTotal = teamTotal(b, stats)
@@ -38,17 +36,18 @@ export default function Leaderboard({ teams, stats, loading, liveTeams = new Set
         <table className="leaderboard-table">
           <thead>
             <tr>
-              <th className="col-rank">Rank</th>
-              <th className="col-owner">Owner</th>
               <th className="col-team">Team</th>
-              <th className="col-hrs">2026 HRs</th>
+              <th className="col-owner">Owner</th>
+              <th className="col-league-rank" title="April league rank from homerunderbyus.com">April</th>
+              <th className="col-hrs">HRs</th>
               <th className="col-chevron"></th>
             </tr>
           </thead>
           <tbody>
-            {sorted.map((team, index) => {
+            {sorted.map((team) => {
               const total = teamTotal(team, stats)
               const isLive = team.players.some(p => liveTeams.has(p.mlbTeam))
+              const leagueRank = leagueStandings[team.teamName.toLowerCase().trim()]
               return (
                 <tr
                   key={team.id}
@@ -60,22 +59,20 @@ export default function Leaderboard({ teams, stats, loading, liveTeams = new Set
                     if (e.key === 'Enter' || e.key === ' ') onSelectTeam(team)
                   }}
                 >
-                  <td className="col-rank">
-                    <span className="rank-badge">
-                      {index < 3 ? RANK_MEDALS[index] : index + 1}
-                    </span>
+                  <td className="col-team">
+                    <span className={isLive ? 'status-dot live' : 'status-dot inactive'} />
+                    {team.teamName}
                   </td>
                   <td className="col-owner">{team.owner}</td>
-                  <td className="col-team">
-                    {team.teamName}
-                    {isLive && <span className="live-badge">● LIVE</span>}
+                  <td className="col-league-rank">
+                    {leagueRank != null
+                      ? <span className="rank-badge">{leagueRank}</span>
+                      : <span className="stat-dash">—</span>}
                   </td>
                   <td className="col-hrs">
-                    {total === null ? (
-                      <span className="stat-dash">—</span>
-                    ) : (
-                      <span className="hr-count">{total}</span>
-                    )}
+                    {total === null
+                      ? <span className="stat-dash">—</span>
+                      : <span className="hr-count">{total}</span>}
                   </td>
                   <td className="col-chevron">
                     <span className="chevron">›</span>
