@@ -7,7 +7,8 @@
       "Read(//Users/donnagamble/Desktop/GH/baseball-team/**)",
       "WebFetch(domain:www.homerunderbyus.com)",
       "Bash(curl -s \"https://www.homerunderbyus.com/hrd-april-26.php\")",
-      "Bash(curl -sI \"https://www.homerunderbyus.com/hrd-april-26.php\")"
+      "Bash(curl -sI \"https://www.homerunderbyus.com/hrd-april-26.php\")",
+      "Bash(curl -s https://tfanuzhtfizwwujemjho.supabase.co/functions/v1/league-standings -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRmYW51emh0Zml6d3d1amVtamhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2NDY2MzQsImV4cCI6MjA5MDIyMjYzNH0.N2NWmJJ8kLfxsHgbTpJHUChGuPAjFrrqF-48_7OCOfA')"
     ],
     "additionalDirectories": [
       "/Users/donnagamble/Desktop/GH/baseball-team/supabase/functions/league-standings"

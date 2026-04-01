@@ -36,9 +36,10 @@ export default function Leaderboard({ teams, stats, loading, liveTeams = new Set
         <table className="leaderboard-table">
           <thead>
             <tr>
-              <th className="col-overall-rank" title="Overall league rank — coming soon">Overall</th>
+              <th className="col-overall-rank">Overall<br/><span className="col-subtext">coming soon</span></th>
               <th className="col-league-rank" title="April league rank from homerunderbyus.com">April</th>
               <th className="col-team">Team</th>
+              <th className="col-status">Live</th>
               <th className="col-owner">Owner</th>
               <th className="col-hrs">HRs</th>
               <th className="col-chevron"></th>
@@ -48,7 +49,7 @@ export default function Leaderboard({ teams, stats, loading, liveTeams = new Set
             {sorted.map((team) => {
               const total = teamTotal(team, stats)
               const isLive = team.players.some(p => liveTeams.has(p.mlbTeam))
-              const leagueRank = leagueStandings[team.leagueTeamName?.toLowerCase().trim() ?? '']
+              const leagueRank = leagueStandings[team.teamName.toLowerCase().trim()]
               return (
                 <tr
                   key={team.id}
@@ -66,9 +67,9 @@ export default function Leaderboard({ teams, stats, loading, liveTeams = new Set
                       ? <span className="rank-badge">{leagueRank}</span>
                       : <span className="stat-dash">—</span>}
                   </td>
-                  <td className="col-team">
+                  <td className="col-team">{team.teamName}</td>
+                  <td className="col-status">
                     <span className={isLive ? 'status-dot live' : 'status-dot inactive'} />
-                    {team.teamName}
                   </td>
                   <td className="col-owner">{team.owner}</td>
                   <td className="col-hrs">

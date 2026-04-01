@@ -412,6 +412,20 @@
   text-align: center;
 }
 
+.col-subtext {
+  display: block;
+  font-size: 0.6rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #475569;
+  line-height: 1;
+}
+
+.leaderboard-table th {
+  vertical-align: top;
+}
+
 .col-overall-rank,
 .col-league-rank {
   width: 60px;
@@ -434,6 +448,9 @@
 
 .col-team {
   color: #cbd5e1;
+}
+
+td.col-team {
   display: flex;
   align-items: center;
   gap: 8px;
