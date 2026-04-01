@@ -36,9 +36,10 @@ export default function Leaderboard({ teams, stats, loading, liveTeams = new Set
         <table className="leaderboard-table">
           <thead>
             <tr>
+              <th className="col-overall-rank" title="Overall league rank — coming soon">Overall</th>
+              <th className="col-league-rank" title="April league rank from homerunderbyus.com">April</th>
               <th className="col-team">Team</th>
               <th className="col-owner">Owner</th>
-              <th className="col-league-rank" title="April league rank from homerunderbyus.com">April</th>
               <th className="col-hrs">HRs</th>
               <th className="col-chevron"></th>
             </tr>
@@ -47,7 +48,7 @@ export default function Leaderboard({ teams, stats, loading, liveTeams = new Set
             {sorted.map((team) => {
               const total = teamTotal(team, stats)
               const isLive = team.players.some(p => liveTeams.has(p.mlbTeam))
-              const leagueRank = leagueStandings[team.teamName.toLowerCase().trim()]
+              const leagueRank = leagueStandings[team.leagueTeamName?.toLowerCase().trim() ?? '']
               return (
                 <tr
                   key={team.id}
@@ -59,16 +60,17 @@ export default function Leaderboard({ teams, stats, loading, liveTeams = new Set
                     if (e.key === 'Enter' || e.key === ' ') onSelectTeam(team)
                   }}
                 >
-                  <td className="col-team">
-                    <span className={isLive ? 'status-dot live' : 'status-dot inactive'} />
-                    {team.teamName}
-                  </td>
-                  <td className="col-owner">{team.owner}</td>
+                  <td className="col-overall-rank league-rank-placeholder" title="Overall rank coming soon">—</td>
                   <td className="col-league-rank">
                     {leagueRank != null
                       ? <span className="rank-badge">{leagueRank}</span>
                       : <span className="stat-dash">—</span>}
                   </td>
+                  <td className="col-team">
+                    <span className={isLive ? 'status-dot live' : 'status-dot inactive'} />
+                    {team.teamName}
+                  </td>
+                  <td className="col-owner">{team.owner}</td>
                   <td className="col-hrs">
                     {total === null
                       ? <span className="stat-dash">—</span>

@@ -106,6 +106,7 @@ export default function AddTeamForm({ initialTeam, onSave, onCancel }) {
   const isEditing = Boolean(initialTeam)
   const [teamName, setTeamName] = useState(initialTeam?.teamName ?? '')
   const [owner, setOwner] = useState(initialTeam?.owner ?? '')
+  const [leagueTeamName, setLeagueTeamName] = useState(initialTeam?.leagueTeamName ?? '')
   const [players, setPlayers] = useState(() =>
     initialTeam
       ? initialTeam.players.map(p => ({ ...p, cost: String(p.cost) }))
@@ -137,6 +138,7 @@ export default function AddTeamForm({ initialTeam, onSave, onCancel }) {
       id: initialTeam?.id ?? owner.trim().toLowerCase().replace(/\s+/g, '-'),
       teamName: teamName.trim(),
       owner: owner.trim(),
+      leagueTeamName: leagueTeamName.trim().toLowerCase(),
       players: filledPlayers.map((p) => ({
         name: p.name,
         mlbTeam: p.mlbTeam.trim().toUpperCase() || '???',
@@ -174,6 +176,18 @@ export default function AddTeamForm({ initialTeam, onSave, onCancel }) {
               placeholder="Your name"
               value={owner}
               onChange={(e) => setOwner(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="form-row">
+          <div className="form-group">
+            <label className="form-label">League Team Name <span className="form-hint">(exact name from homerunderbyus.com, e.g. "obrien luck 429")</span></label>
+            <input
+              className="form-input"
+              type="text"
+              placeholder="e.g. obrien luck 429"
+              value={leagueTeamName}
+              onChange={(e) => setLeagueTeamName(e.target.value)}
             />
           </div>
         </div>

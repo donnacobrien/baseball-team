@@ -412,9 +412,14 @@
   text-align: center;
 }
 
+.col-overall-rank,
 .col-league-rank {
   width: 60px;
   cursor: help;
+}
+
+.leaderboard-table .col-overall-rank {
+  text-align: center;
 }
 
 .league-rank-placeholder {
@@ -864,6 +869,15 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.form-hint {
+  font-size: 0.7rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #64748b;
+  margin-left: 6px;
 }
 
 .form-label {
