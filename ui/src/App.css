@@ -641,6 +641,7 @@ td.col-team {
 .player-table {
   table-layout: fixed;
   width: 100%;
+  min-width: 520px;
 }
 
 .col-rank       { width: 40px; }

@@ -12,14 +12,13 @@ export function useLeagueRanks(period = 'april') {
   useEffect(() => {
     supabase
       .from('league_ranks')
-      .select('team_id, rank, teams(data)')
+      .select('team_id, rank')
       .eq('period', period)
       .then(({ data }) => {
         if (!data) return
         const map = {}
         for (const row of data) {
-          const name = row.teams?.data?.teamName?.toLowerCase().trim()
-          if (name) map[name] = row.rank
+          map[row.team_id] = row.rank
         }
         setRankings(map)
       })

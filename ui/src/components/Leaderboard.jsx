@@ -49,7 +49,7 @@ export default function Leaderboard({ teams, stats, loading, liveTeams = new Set
             {sorted.map((team) => {
               const total = teamTotal(team, stats)
               const isLive = team.players.some(p => liveTeams.has(p.mlbTeam))
-              const leagueRank = leagueStandings[team.teamName.toLowerCase().trim()]
+              const leagueRank = leagueStandings[team.id]
               return (
                 <tr
                   key={team.id}
